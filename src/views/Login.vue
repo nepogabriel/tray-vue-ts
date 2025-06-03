@@ -17,20 +17,50 @@
 // onMounted(() => {
 //   // lógica de inicialização
 // });
+
+import { reactive } from 'vue'
+import axios from 'axios'
+
+interface FormLogin {
+  email: string
+  password: string
+}
+
+const form = reactive<FormLogin>({
+  email: '',
+  password: ''
+})
+
+async function submitForm() {
+    console.log('here');
+  try {
+    const response = await axios.post('localhost:8181/api/login', {
+      email: form.email,
+      password: form.password
+    })
+    console.log('Sucesso:', response.data)
+  } catch (error) {
+    console.error('Erro ao enviar:', error)
+  }
+}
 </script>
 
 <template>
     <main class="form-signin w-100 m-auto">
-        <form>
+        <form @submit.prevent="submitForm">
             <h1 class="h3 mb-3 fw-normal">Acesse sua conta</h1>
 
             <div class="form-floating">
-                <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                <input 
+                    v-model="form.email"
+                    type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
                 <label for="floatingInput">E-mail</label>
             </div>
             
             <div class="form-floating">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <input 
+                    v-model="form.password"
+                    type="password" class="form-control" id="floatingPassword" placeholder="Password">
                 <label for="floatingPassword">Senha</label>
             </div>
             
