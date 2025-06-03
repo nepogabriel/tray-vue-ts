@@ -19,8 +19,10 @@
 // });
 
 import { reactive } from 'vue'
-import { getCookie, setCookie } from 'typescript-cookie'
-import axios from 'axios'
+import { setCookie } from 'typescript-cookie'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 interface FormLogin {
   email: string
@@ -34,19 +36,6 @@ const form = reactive<FormLogin>({
 
 async function submitForm() {
   try {
-    // const response = await axios.post('localhost:8181/api/login', {
-    //   email: form.email,
-    //   password: form.password
-    // },
-    // {
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Access': 'application/json',
-    //   }
-    // })
-    // .then((res) => setCookie('my_api_token', res.data.access_token))
-    // .catch((err) => console.error(err));
-
     const payload = {
       email: form.email,
       password: form.password
@@ -62,8 +51,11 @@ async function submitForm() {
     })
     .then(response => response.json())
     .then(res => {
-      setCookie('my_api_token', res.access_token);
-    })
+      if (res.access_token) {
+        setCookie('my_api_token', res.access_token);
+        router.push('/');
+      }
+    });
   } catch (error) {
     console.error('Erro ao enviar:', error)
   }
