@@ -19,6 +19,7 @@
 // });
 
 import { reactive } from 'vue'
+import { getCookie, setCookie } from 'typescript-cookie'
 import axios from 'axios'
 
 interface FormLogin {
@@ -32,13 +33,37 @@ const form = reactive<FormLogin>({
 })
 
 async function submitForm() {
-    console.log('here');
   try {
-    const response = await axios.post('localhost:8181/api/login', {
+    // const response = await axios.post('localhost:8181/api/login', {
+    //   email: form.email,
+    //   password: form.password
+    // },
+    // {
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'Access': 'application/json',
+    //   }
+    // })
+    // .then((res) => setCookie('my_api_token', res.data.access_token))
+    // .catch((err) => console.error(err));
+
+    const payload = {
       email: form.email,
       password: form.password
+    }
+
+    await fetch('http://localhost:8181/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access': 'application/json',
+      },
+      body: JSON.stringify(payload)
     })
-    console.log('Sucesso:', response.data)
+    .then(response => response.json())
+    .then(res => {
+      setCookie('my_api_token', res.access_token);
+    })
   } catch (error) {
     console.error('Erro ao enviar:', error)
   }
@@ -51,19 +76,19 @@ async function submitForm() {
             <h1 class="h3 mb-3 fw-normal">Acesse sua conta</h1>
 
             <div class="form-floating">
-                <input 
+                <input
                     v-model="form.email"
                     type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
                 <label for="floatingInput">E-mail</label>
             </div>
-            
+
             <div class="form-floating">
-                <input 
+                <input
                     v-model="form.password"
                     type="password" class="form-control" id="floatingPassword" placeholder="Password">
                 <label for="floatingPassword">Senha</label>
             </div>
-            
+
             <button class="btn btn-info w-100 py-2" type="submit">Entrar</button>
         </form>
     </main>
