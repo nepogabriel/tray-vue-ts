@@ -5,6 +5,7 @@ import axios from 'axios';
 import type { RegisterSaleInterface } from '@/types/RegisterSale';
 import { requestSellers } from '@/services/sellerService';
 import type { SellerInterface } from '@/types/Seller';
+import { getCookie } from 'typescript-cookie';
 
 const form = ref<RegisterSaleInterface>({
   seller_id: 0,
@@ -24,19 +25,22 @@ const submitForm = async () => {
 
     console.log('DADOS: ', payload);
 
+    const token = getCookie('my_api_token');
+
     const response = await axios.post(
       'http://localhost:8181/api/sale',
       payload,
       {
         headers: {
           'Content-Type': 'application/json',
-          'Access': 'application/json',
+          'Authorization': `Bearer ${token}`
         }
       }
     );
 
-    if (response.data.success)
+    if (response.data.success) {
       alert('Venda registrada com sucesso!');
+    }
   } catch (error) {
     console.error('Erro ao registrar venda:', error);
   }

@@ -1,4 +1,4 @@
-import { getCookie, setCookie } from 'typescript-cookie'
+import { getCookie } from 'typescript-cookie'
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 
 export default{

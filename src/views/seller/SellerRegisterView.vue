@@ -3,6 +3,7 @@ import DefaultLayout from '../../layouts/DefaultLayout.vue'
 import { ref } from 'vue';
 import axios from 'axios';
 import type { RegisterSellerInterface } from '@/types/RegisterSeller';
+import { getCookie } from 'typescript-cookie';
 
 const form = ref<RegisterSellerInterface>({
   name: '',
@@ -16,19 +17,27 @@ const submitForm = async () => {
       email: form.value.email
     }
 
+    const token = getCookie('my_api_token');
+
     const response = await axios.post(
       'http://localhost:8181/api/seller',
-      payload,
+      {
+        name: form.value.name,
+        email: form.value.email
+      },
       {
         headers: {
           'Content-Type': 'application/json',
-          'Access': 'application/json',
+          'Authorization': `Bearer ${token}`
         }
       }
     );
 
-    if (response.data.success)
+    if (response.data.success) {
       alert('Vendedor cadastrado com sucesso!');
+    } else {
+      alert('Não foi possível cadastrar a venda.');
+    }
   } catch (error) {
     console.error('Erro ao cadastrar vendedor:', error);
   }

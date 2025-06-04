@@ -4,12 +4,27 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import type { SaleInterface } from '../../types/Sale';
 import type { ApiResponse } from '@/types/ApiResponse';
+import { getCookie } from 'typescript-cookie';
 
 const sales = ref<SaleInterface[]>([]);
 
 const getSales = async () => {
   try {
-    const response = await axios.get<ApiResponse<SaleInterface[]>>('http://localhost:8181/api/sale');
+    const token = getCookie('my_api_token');
+
+    if (!token) {
+      return;
+    }
+
+    const response = await axios.get<ApiResponse<SaleInterface[]>>(
+      'http://localhost:8181/api/sale',
+      {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        }
+      }
+    );
     sales.value = response.data.data;
   } catch (error) {
     console.error('Erro ao buscar vendas:', error);
