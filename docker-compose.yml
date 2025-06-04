@@ -8,8 +8,5 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5175:5173"
-    volumes:
-      - .:/app
-      - /app/node_modules
     environment:
       - NODE_ENV=development
