@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import ListSaleView from '../views/sale/ListSaleView.vue'
 import Login from '../views/Login.vue'
 import Guard from '../services/middleware'
 import SellerRegisterView from '../views/seller/SellerRegisterView.vue'
@@ -17,7 +17,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView,
+      component: ListSaleView,
       beforeEnter: Guard.auth,
     },
     {

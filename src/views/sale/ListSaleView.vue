@@ -1,8 +1,10 @@
+// MUDAR NOME DO ARQUIVO PARA: ListaSaleView.vue
+
 <script setup lang="ts">
-import DefaultLayout from '../layouts/DefaultLayout.vue'
+import DefaultLayout from '../../layouts/DefaultLayout.vue'
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import type { SaleInterface } from '../types/Sale';
+import type { SaleInterface } from '../../types/Sale';
 import type { ApiResponse } from '@/types/ApiResponse';
 
 const sales = ref<SaleInterface[]>([]);
