@@ -2,20 +2,21 @@
 import DefaultLayout from '../../layouts/DefaultLayout.vue'
 import { ref, onMounted } from 'vue';
 import type { SellerInterface } from '../../types/Seller';
-import { requestSellers } from '@/services/sellerService';
+import { requestSellers, sendEmail } from '@/services/sellerService';
 
 const sellers = ref<SellerInterface[]>([]);
 
 const getSellers = async () => {
   try {
-    // const response = await axios.get<ApiResponse<SellerInterface[]>>('http://localhost:8181/api/seller');
-    // sellers.value = response.data.data;
-
     sellers.value = await requestSellers();
   } catch (error) {
     console.error('Erro ao buscar vendas:', error);
   }
 };
+
+function clickEmail(seller_id: number) {
+  sendEmail(seller_id);
+}
 
 onMounted(() => {
   getSellers();
@@ -33,6 +34,7 @@ onMounted(() => {
             <th scope="col" class="fw-bold">#</th>
             <th scope="col" class="fw-bold">Nome</th>
             <th scope="col" class="fw-bold">E-mail</th>
+            <th scope="col" class="fw-bold">Relatório</th>
           </tr>
         </thead>
         <tbody>
@@ -40,6 +42,7 @@ onMounted(() => {
             <th scope="row">{{ seller.id }}</th>
             <td>{{ seller.name }}</td>
             <td>{{ seller.email }}</td>
+            <td><a @click="clickEmail(seller.id)" class="btn btn-success">Enviar</a></td>
           </tr>
         </tbody>
       </table>
