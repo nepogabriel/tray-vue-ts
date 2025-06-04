@@ -16,11 +16,15 @@
                 </li>
 
                 <li class="nav-item">
-                    <router-link to="" class="nav-link fw-bold text-white">Cadastrar vendendor</router-link>
+                    <router-link to="/sale-register" class="nav-link fw-bold text-white">Registrar venda</router-link>
                 </li>
 
                 <li class="nav-item">
-                    <router-link to="" class="nav-link fw-bold text-white">Vendedores</router-link>
+                    <router-link to="/seller-register" class="nav-link fw-bold text-white">Cadastrar vendendor</router-link>
+                </li>
+
+                <li class="nav-item">
+                    <router-link to="/list-seller" class="nav-link fw-bold text-white">Vendedores</router-link>
                 </li>
             </ul>
         </div>

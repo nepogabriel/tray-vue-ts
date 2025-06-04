@@ -1,23 +1,4 @@
 <script setup lang="ts">
-// Não é necessário definir name no script setup
-// Reactive data
-// const someData = ref<string>('');
-
-// Methods
-// const someMethod = () => {
-//   // lógica do método
-// };
-
-// Computed properties
-// const computedValue = computed(() => {
-//   return someData.value.toUpperCase();
-// });
-
-// Lifecycle hooks
-// onMounted(() => {
-//   // lógica de inicialização
-// });
-
 import { reactive } from 'vue'
 import { setCookie } from 'typescript-cookie'
 import { useRouter } from 'vue-router'
@@ -81,7 +62,7 @@ async function submitForm() {
                 <label for="floatingPassword">Senha</label>
             </div>
 
-            <button class="btn btn-info w-100 py-2" type="submit">Entrar</button>
+            <button class="btn btn-success w-100 py-2" type="submit">Entrar</button>
         </form>
     </main>
 </template>

@@ -2,7 +2,8 @@
 import DefaultLayout from '../layouts/DefaultLayout.vue'
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import type { ApiResponse, SaleInterface } from '../types/Sale';
+import type { SaleInterface } from '../types/Sale';
+import type { ApiResponse } from '@/types/ApiResponse';
 
 const sales = ref<SaleInterface[]>([]);
 
@@ -23,6 +24,8 @@ onMounted(() => {
 <template>
   <DefaultLayout>
     <div class="sales-table">
+      <h1 class="text-white text-center mb-5">Lista de Vendas</h1>
+
       <table class="table table-dark">
         <thead>
           <tr>
