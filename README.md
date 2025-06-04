@@ -1,5 +1,5 @@
 <h1 align="center">
-API SALES AND SELLERS
+SALES AND SELLERS
 </h1>
 
 ## Sobre
