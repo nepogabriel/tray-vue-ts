@@ -1,15 +1,22 @@
 <script setup lang="ts">
 import DefaultLayout from '../../layouts/DefaultLayout.vue'
 import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router'
 import axios from 'axios';
 import type { SaleInterface } from '../../types/Sale';
 import type { ApiResponse } from '@/types/ApiResponse';
 
 const sales = ref<SaleInterface[]>([]);
 
+const route = useRoute();
+const sellerIdNumber = Number(route.params.id);
+
+console.log('ID recebido:', sellerIdNumber)
+
 const getSales = async () => {
   try {
-    const response = await axios.get<ApiResponse<SaleInterface[]>>('http://localhost:8181/api/sale');
+    const response = await axios.get(`http://localhost:8181/api/sale/${sellerIdNumber}`);
+    console.log(response)
     sales.value = response.data.data;
   } catch (error) {
     console.error('Erro ao buscar vendas:', error);

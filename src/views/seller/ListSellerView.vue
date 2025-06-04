@@ -35,6 +35,7 @@ onMounted(() => {
             <th scope="col" class="fw-bold">Nome</th>
             <th scope="col" class="fw-bold">E-mail</th>
             <th scope="col" class="fw-bold">Relatório</th>
+            <th scope="col" class="fw-bold">Vendas</th>
           </tr>
         </thead>
         <tbody>
@@ -43,6 +44,7 @@ onMounted(() => {
             <td>{{ seller.name }}</td>
             <td>{{ seller.email }}</td>
             <td><a @click="clickEmail(seller.id)" class="btn btn-success">Enviar</a></td>
+            <td><router-link :to="{ name: 'list-sales-by-seller', params: { id: String(seller.id) } }" class="btn btn-success">Ver</router-link></td>
           </tr>
         </tbody>
       </table>

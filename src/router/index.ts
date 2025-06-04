@@ -5,6 +5,7 @@ import Guard from '../services/middleware'
 import SellerRegisterView from '../views/seller/SellerRegisterView.vue'
 import ListSellerView from '../views/seller/ListSellerView.vue'
 import SaleRegisterView from '../views/sale/SaleRegisterView.vue'
+import SalesBySellerView from '../views/sale/SalesBySellerView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,6 +37,12 @@ const router = createRouter({
       path: '/sale-register',
       name: 'sale-register',
       component: SaleRegisterView,
+      beforeEnter: Guard.auth,
+    },
+    {
+      path: '/list-sales-by-seller/:id',
+      name: 'list-sales-by-seller',
+      component: SalesBySellerView,
       beforeEnter: Guard.auth,
     },
     {
