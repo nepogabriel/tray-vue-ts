@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import DefaultLayout from '../../layouts/DefaultLayout.vue'
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
 import type { SellerInterface } from '../../types/Seller';
-import type { ApiResponse } from '@/types/ApiResponse';
+import { requestSellers } from '@/services/sellerService';
 
 const sellers = ref<SellerInterface[]>([]);
 
 const getSellers = async () => {
   try {
-    const response = await axios.get<ApiResponse<SellerInterface[]>>('http://localhost:8181/api/seller');
-    sellers.value = response.data.data;
+    // const response = await axios.get<ApiResponse<SellerInterface[]>>('http://localhost:8181/api/seller');
+    // sellers.value = response.data.data;
+
+    sellers.value = await requestSellers();
   } catch (error) {
     console.error('Erro ao buscar vendas:', error);
   }

@@ -2,22 +2,53 @@
 import DefaultLayout from '../../layouts/DefaultLayout.vue'
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import type { SaleInterface } from '../../types/Sale';
+import type { RegisterSaleInterface } from '@/types/RegisterSale';
+import { requestSellers } from '@/services/sellerService';
+import type { SellerInterface } from '@/types/Seller';
 
-// const sales = ref<SaleInterface[]>([]);
+const form = ref<RegisterSaleInterface>({
+  seller_id: 0,
+  value: 0,
+  sale_date: '',
+});
 
-// const getSales = async () => {
-//   try {
-//     const response = await axios.get<ApiResponse<SaleInterface[]>>('http://localhost:8181/api/sale');
-//     sales.value = response.data.data;
-//   } catch (error) {
-//     console.error('Erro ao buscar vendas:', error);
-//   }
-// };
+const sellers = ref<SellerInterface[]>([]);
 
-// onMounted(() => {
-//   getSales();
-// });
+const submitForm = async () => {
+  try {
+    const payload = {
+      seller_id: form.value.seller_id,
+      value: form.value.value,
+      sale_date: form.value.sale_date,
+    }
+
+    console.log('DADOS: ', payload);
+
+    const response = await axios.post(
+      'http://localhost:8181/api/sale',
+      payload,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access': 'application/json',
+        }
+      }
+    );
+
+    if (response.data.success)
+      alert('Venda registrada com sucesso!');
+  } catch (error) {
+    console.error('Erro ao registrar venda:', error);
+  }
+};
+
+onMounted(async () => {
+  try {
+    sellers.value = await requestSellers();
+  } catch (error) {
+    console.error('Erro ao buscar vendedores:', error);
+  }
+});
 </script>
 
 <template>
@@ -25,20 +56,24 @@ import type { SaleInterface } from '../../types/Sale';
     <div class="container">
       <h1 class="text-white text-center mb-5">Registrar Venda</h1>
 
-      <form class="">
+      <form  @submit.prevent="submitForm">
         <div class="mb-3">
           <label for="sale-total" class="form-label">Valor total:</label>
-          <input type="text" class="form-control" id="sale-total">
+          <input v-model="form.value" type="number" class="form-control" id="sale-total">
         </div>
 
         <div class="mb-3">
           <label for="sale-date" class="form-label">Data:</label>
-          <input type="date" class="form-control" id="sale-date">
+          <input v-model="form.sale_date" type="date" class="form-control" id="sale-date">
         </div>
 
         <div class="mb-3">
           <label for="sale-seller" class="form-label">Vendendor:</label>
-          <input type="text" class="form-control" id="sale-seller">
+          <select v-model="form.seller_id" class="form-select">
+            <option v-for="seller in sellers" :key="seller.id" :value="seller.id">
+              {{ seller.id }} - {{ seller.name }}
+            </option>
+          </select>
         </div>
 
         <button type="submit" class="btn btn-success">Registrar</button>

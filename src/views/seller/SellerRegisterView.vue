@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import DefaultLayout from '../../layouts/DefaultLayout.vue'
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios';
 import type { RegisterSellerInterface } from '@/types/RegisterSeller';
 
