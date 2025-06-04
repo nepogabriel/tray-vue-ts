@@ -5,7 +5,7 @@ FROM node:22-alpine
 WORKDIR /app
 
 # Copia os arquivos de configuração primeiro
-COPY package.json package-lock.json* pnpm-lock.yaml* ./
+COPY package.json package-lock.json* ./
 
 # Instala as dependências
 RUN npm install
