@@ -46,7 +46,7 @@ async function submitForm() {
 <template>
     <main class="form-signin w-100 m-auto">
         <form @submit.prevent="submitForm">
-            <h1 class="h3 mb-3 fw-normal">Acesse sua conta</h1>
+            <h1 class="text-white text-center my-5">Acesse sua conta</h1>
 
             <div class="form-floating">
                 <input
@@ -62,7 +62,8 @@ async function submitForm() {
                 <label for="floatingPassword">Senha</label>
             </div>
 
-            <button class="btn btn-success w-100 py-2" type="submit">Entrar</button>
+            <button class="btn btn-success w-100 py-2 my-3" type="submit">Entrar</button>
+            <router-link to="/register" class="btn btn-success w-100 py-2">Cadastre-se</router-link>
         </form>
     </main>
 </template>
