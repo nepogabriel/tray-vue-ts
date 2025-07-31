@@ -6,19 +6,18 @@ import axios from 'axios';
 import type { SaleInterface } from '../../types/Sale';
 import { getCookie } from 'typescript-cookie';
 
+const apiUrl = import.meta.env.VITE_API_URL;
 const sales = ref<SaleInterface[]>([]);
 
 const route = useRoute();
 const sellerIdNumber = Number(route.params.id);
-
-console.log('ID recebido:', sellerIdNumber)
 
 const getSales = async () => {
   try {
     const token = getCookie('my_api_token');
 
     const response = await axios.get(
-      `http://localhost:8181/api/sale/${sellerIdNumber}`,
+      `${apiUrl}/sale/${sellerIdNumber}`,
       {
         headers: {
             'Content-Type': 'application/json',

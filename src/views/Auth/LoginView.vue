@@ -3,6 +3,7 @@ import { reactive } from 'vue'
 import { setCookie } from 'typescript-cookie'
 import { useRouter } from 'vue-router'
 
+const apiUrl = import.meta.env.VITE_API_URL;
 const router = useRouter()
 
 interface FormLogin {
@@ -22,7 +23,7 @@ async function submitForm() {
       password: form.password
     }
 
-    await fetch('http://localhost:8181/api/login', {
+    await fetch(`${apiUrl}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

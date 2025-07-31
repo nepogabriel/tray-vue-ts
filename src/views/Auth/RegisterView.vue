@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import type { RegisterUserInterface } from '@/types/RegisterUser';
 
+const apiUrl = import.meta.env.VITE_API_URL;
 const form = ref<RegisterUserInterface>({
   name: '',
   email: '',
@@ -18,7 +19,7 @@ const submitForm = async () => {
     }
 
     const response = await axios.post(
-      'http://localhost:8181/api/register',
+      `${apiUrl}/register`,
       payload,
       {
         headers: {

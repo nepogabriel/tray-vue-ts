@@ -51,12 +51,6 @@ const router = createRouter({
       component: SalesBySellerView,
       beforeEnter: Guard.auth,
     },
-    {
-      path: '/about',
-      name: 'about',
-      beforeEnter: Guard.auth,
-      component: () => import('../views/AboutView.vue'),
-    },
   ],
 })
 

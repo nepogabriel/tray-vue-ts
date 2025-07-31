@@ -5,9 +5,10 @@ import { getCookie } from 'typescript-cookie';
 
 export const requestSellers = async (): Promise<SellerInterface[]> => {
   const token = getCookie('my_api_token');
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const response = await axios.get<ApiResponse<SellerInterface[]>>(
-    'http://localhost:8181/api/seller',
+    `${apiUrl}/seller`,
     {
       headers: {
           'Content-Type': 'application/json',
@@ -20,9 +21,10 @@ export const requestSellers = async (): Promise<SellerInterface[]> => {
 
 export const sendEmail = async (seller_id: number) => {
   const token = getCookie('my_api_token');
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   await axios.get(
-    `http://localhost:8181/api/email/${seller_id}`,
+    `${apiUrl}/email/${seller_id}`,
     {
       headers: {
           'Content-Type': 'application/json',

@@ -5,6 +5,7 @@ import axios from 'axios';
 import type { RegisterSellerInterface } from '@/types/RegisterSeller';
 import { getCookie } from 'typescript-cookie';
 
+const apiUrl = import.meta.env.VITE_API_URL;
 const form = ref<RegisterSellerInterface>({
   name: '',
   email: ''
@@ -20,7 +21,7 @@ const submitForm = async () => {
     const token = getCookie('my_api_token');
 
     const response = await axios.post(
-      'http://localhost:8181/api/seller',
+      `${apiUrl}/seller`,
       {
         name: form.value.name,
         email: form.value.email

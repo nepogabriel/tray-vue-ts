@@ -6,6 +6,7 @@ import type { SaleInterface } from '../../types/Sale';
 import type { ApiResponse } from '@/types/ApiResponse';
 import { getCookie } from 'typescript-cookie';
 
+const apiUrl = import.meta.env.VITE_API_URL;
 const sales = ref<SaleInterface[]>([]);
 
 const getSales = async () => {
@@ -17,7 +18,7 @@ const getSales = async () => {
     }
 
     const response = await axios.get<ApiResponse<SaleInterface[]>>(
-      'http://localhost:8181/api/sale',
+      `${apiUrl}/sale`,
       {
         headers: {
             'Content-Type': 'application/json',
