@@ -2,6 +2,8 @@
 import { reactive } from 'vue'
 import { setCookie } from 'typescript-cookie'
 import { useRouter } from 'vue-router'
+import api from '@/api/axios'
+import { useAuthStore } from '@/stores/auth'
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const router = useRouter()
@@ -16,37 +18,28 @@ const form = reactive<FormLogin>({
   password: ''
 })
 
-async function submitForm() {
+const authStore = useAuthStore();
+
+async function login() {
   try {
     const payload = {
       email: form.email,
       password: form.password
     }
 
-    await fetch(`${apiUrl}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access': 'application/json',
-      },
-      body: JSON.stringify(payload)
-    })
-    .then(response => response.json())
-    .then(res => {
-      if (res.access_token) {
-        setCookie('my_api_token', res.access_token);
-        router.push('/');
-      }
-    });
+    const response = await api.post('/login', payload);
+    const token = response.data.access_token;
+    authStore.login(token);
+    router.push('/');
   } catch (error) {
-    console.error('Erro ao enviar:', error)
+    console.error('Erro:', error);
   }
 }
 </script>
 
 <template>
     <main class="form-signin w-100 m-auto">
-        <form @submit.prevent="submitForm">
+        <form @submit.prevent="login">
             <h1 class="text-white text-center my-5">Acesse sua conta</h1>
 
             <div class="form-floating">
