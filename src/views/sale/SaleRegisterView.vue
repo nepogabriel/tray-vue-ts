@@ -1,13 +1,11 @@
 <script setup lang="ts">
 import DefaultLayout from '../../layouts/DefaultLayout.vue'
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import api from '@/api/axios';
 import type { RegisterSaleInterface } from '@/types/RegisterSale';
 import { requestSellers } from '@/services/sellerService';
 import type { SellerInterface } from '@/types/Seller';
-import { getCookie } from 'typescript-cookie';
 
-const apiUrl = import.meta.env.VITE_API_URL;
 const form = ref<RegisterSaleInterface>({
   seller_id: 0,
   value: 0,
@@ -24,24 +22,10 @@ const submitForm = async () => {
       sale_date: form.value.sale_date,
     }
 
-    console.log('DADOS: ', payload);
+    const response = await api.post('/sale', payload);
 
-    const token = getCookie('my_api_token');
-
-    const response = await axios.post(
-      `${apiUrl}/sale`,
-      payload,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }
-    );
-
-    if (response.data.success) {
+    if (response.data.success)
       alert('Venda registrada com sucesso!');
-    }
   } catch (error) {
     console.error('Erro ao registrar venda:', error);
   }

@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import DefaultLayout from '../../layouts/DefaultLayout.vue'
 import { ref } from 'vue';
-import axios from 'axios';
+import api from '@/api/axios';
 import type { RegisterSellerInterface } from '@/types/RegisterSeller';
-import { getCookie } from 'typescript-cookie';
 
-const apiUrl = import.meta.env.VITE_API_URL;
 const form = ref<RegisterSellerInterface>({
   name: '',
   email: ''
@@ -18,21 +16,7 @@ const submitForm = async () => {
       email: form.value.email
     }
 
-    const token = getCookie('my_api_token');
-
-    const response = await axios.post(
-      `${apiUrl}/seller`,
-      {
-        name: form.value.name,
-        email: form.value.email
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }
-    );
+    const response = await api.post('/seller', payload);
 
     if (response.data.success) {
       alert('Vendedor cadastrado com sucesso!');

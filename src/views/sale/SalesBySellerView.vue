@@ -2,11 +2,9 @@
 import DefaultLayout from '../../layouts/DefaultLayout.vue'
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router'
-import axios from 'axios';
+import api from '@/api/axios';
 import type { SaleInterface } from '../../types/Sale';
-import { getCookie } from 'typescript-cookie';
 
-const apiUrl = import.meta.env.VITE_API_URL;
 const sales = ref<SaleInterface[]>([]);
 
 const route = useRoute();
@@ -14,18 +12,7 @@ const sellerIdNumber = Number(route.params.id);
 
 const getSales = async () => {
   try {
-    const token = getCookie('my_api_token');
-
-    const response = await axios.get(
-      `${apiUrl}/sale/${sellerIdNumber}`,
-      {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        }
-      }
-    );
-    console.log(response)
+    const response = await api.get(`/sale/${sellerIdNumber}`);
     sales.value = response.data.data;
   } catch (error) {
     console.error('Erro ao buscar vendas:', error);

@@ -1,31 +1,15 @@
 <script setup lang="ts">
 import DefaultLayout from '../../layouts/DefaultLayout.vue'
 import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import api from '@/api/axios';
 import type { SaleInterface } from '../../types/Sale';
 import type { ApiResponse } from '@/types/ApiResponse';
-import { getCookie } from 'typescript-cookie';
 
-const apiUrl = import.meta.env.VITE_API_URL;
 const sales = ref<SaleInterface[]>([]);
 
 const getSales = async () => {
   try {
-    const token = getCookie('my_api_token');
-
-    if (!token) {
-      return;
-    }
-
-    const response = await axios.get<ApiResponse<SaleInterface[]>>(
-      `${apiUrl}/sale`,
-      {
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        }
-      }
-    );
+    const response = await api.get<ApiResponse<SaleInterface[]>>('/sale');
     sales.value = response.data.data;
   } catch (error) {
     console.error('Erro ao buscar vendas:', error);

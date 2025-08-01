@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { reactive } from 'vue'
-import { setCookie } from 'typescript-cookie'
 import { useRouter } from 'vue-router'
 import api from '@/api/axios'
 import { useAuthStore } from '@/stores/auth'
 
-const apiUrl = import.meta.env.VITE_API_URL;
 const router = useRouter()
 
 interface FormLogin {
@@ -20,7 +18,7 @@ const form = reactive<FormLogin>({
 
 const authStore = useAuthStore();
 
-async function login() {
+async function submitForm() {
   try {
     const payload = {
       email: form.email,
@@ -39,7 +37,7 @@ async function login() {
 
 <template>
     <main class="form-signin w-100 m-auto">
-        <form @submit.prevent="login">
+        <form @submit.prevent="submitForm">
             <h1 class="text-white text-center my-5">Acesse sua conta</h1>
 
             <div class="form-floating">

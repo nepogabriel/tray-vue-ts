@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import axios from 'axios';
+import api from '@/api/axios';
 import type { RegisterUserInterface } from '@/types/RegisterUser';
 
-const apiUrl = import.meta.env.VITE_API_URL;
 const form = ref<RegisterUserInterface>({
   name: '',
   email: '',
@@ -18,16 +17,7 @@ const submitForm = async () => {
       password: form.value.password
     }
 
-    const response = await axios.post(
-      `${apiUrl}/register`,
-      payload,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access': 'application/json',
-        }
-      }
-    );
+    const response = await api.post('/register', payload);
 
     if (response.data.success)
       alert('Vendedor cadastrado com sucesso!');
